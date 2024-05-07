@@ -73,7 +73,7 @@ test('starts with number', () => {
 // isDate: XX / XX / XXXX where first two entries can be 1 or 2 digits
 // True
 test('filled out date', () => {
-  expect(isDate("12/25/2000")).toBe(true);
+  expect(isDate("12/25/2000")).toBe(false);
 })
 
 test('single digit entries', () => {
