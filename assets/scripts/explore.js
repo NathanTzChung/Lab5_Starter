@@ -4,6 +4,20 @@ window.addEventListener('DOMContentLoaded', init);
 
 function init() {
   // TODO
+  populateVoiceList();
+  if (typeof speechSynthesis !== "undefined" &&
+    speechSynthesis.onvoiceschanged !== undefined){
+    speechSynthesis.onvoiceschanged = populateVoiceList;
+  }
+
+
+};
+
+// Code below referenced from https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices
+function populateVoiceList(){
+  if (typeof speechSynthesis === "undefined") {
+    return;
+  }
 
   const synth = window.speechSynthesis;
   const btnPress = document.querySelector("button");
@@ -14,9 +28,7 @@ function init() {
   let availVoices = [];
   availVoices = synth.getVoices();
 
-  // Code below referenced from https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/getVoices
   // This loop is used to get list of available voices
-
   for (let i = 0; i < availVoices.length; i++) {
     const option = document.createElement("option");
     option.textContent = `${availVoices[i].name} (${availVoices[i].lang})`;
@@ -54,6 +66,7 @@ function init() {
     //   smileImage.src = "./assets/images/smiling-open.png"
     // }
 
+    // Keeps track of when to change smiley face
     speakThis.addEventListener("start", function(){
       // console.log("speaking in progress: ", synth.speaking);
       smileImage.src = "./assets/images/smiling-open.png"
@@ -66,6 +79,4 @@ function init() {
     
     
   });
-
-
 }
