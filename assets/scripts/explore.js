@@ -28,6 +28,8 @@ function populateVoiceList(){
   let availVoices = [];
   availVoices = synth.getVoices();
 
+  // console.log("These are the avail voices: ", availVoices);
+
   // This loop is used to get list of available voices
   for (let i = 0; i < availVoices.length; i++) {
     const option = document.createElement("option");
@@ -46,25 +48,19 @@ function populateVoiceList(){
   btnPress.addEventListener("click", function(e){
     e.preventDefault();
 
-    if (synth.speaking) {
-      console.error("voice is speaking");
-      return;
-    }
-
     const speakThis = new SpeechSynthesisUtterance(txtSpace.value); // Gets the text to speak aloud
     const selectedVoice = voiceOpts.selectedOptions[0].getAttribute("data-name");
 
     for (let i = 0; i < availVoices.length; i++){
       if (availVoices[i].name == selectedVoice){
+        // console.log("This is the avail voice: ", availVoices[i]);
+        // console.log("This is the speaking voice voice: ", selectedVoice);
         speakThis.voice = availVoices[i];
       };
     }
 
+    synth.cancel();
     synth.speak(speakThis);
-
-    // while (currSpeaking) {
-    //   smileImage.src = "./assets/images/smiling-open.png"
-    // }
 
     // Keeps track of when to change smiley face
     speakThis.addEventListener("start", function(){
